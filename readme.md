@@ -1,6 +1,11 @@
 Cislo: Integer to czech word translator
 =======================================
 
+[![Build Status](https://travis-ci.org/KhanovaSkola/cislo.svg?branch=master)](https://travis-ci.org/KhanovaSkola/cislo)
+[![Downloads this Month](https://img.shields.io/packagist/dm/KhanovaSkola/cislo.svg?style=flat)](https://packagist.org/packages/KhanovaSkola/cislo)
+[![Stable version](http://img.shields.io/packagist/v/KhanovaSkola/cislo.svg?style=flat)](https://packagist.org/packages/KhanovaSkola/cislo)
+[![HHVM Status](http://img.shields.io/hhvm/KhanovaSkola/cislo.svg?style=flat)](http://hhvm.h4cc.de/package/KhanovaSkola/cislo)
+
 Installation
 ------------
 
