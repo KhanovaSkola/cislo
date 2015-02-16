@@ -27,6 +27,7 @@ Cislo::parse('pětadvacet'); // 25
 Cislo::parse('tisíc devět set dvacet pět'); // 1925
 Cislo::parse('devatenáct set dvacet pět')); // 1925
 Cislo::parse('jeden tisic devet set a dvacet pet'); // 1925
+Cislo::parse('garble'); // KhanovaSkola\\InvalidArgumentException
 
 Cislo::toWord(0); // nula
 Cislo::toWord(1337); // tisíc tři sta třicet sedm

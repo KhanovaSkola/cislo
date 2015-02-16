@@ -168,6 +168,8 @@ class Cislo
 
 			switch ($word)
 			{
+				case 'a': // ignore
+				case 'nula': // keep $number 0
 				case 'jedno': // expecting 'sto'
 					break;
 
@@ -258,6 +260,9 @@ class Cislo
 					$number += ($buffer ?: 1) * 1e6;
 					$buffer = 0;
 					break;
+
+				default:
+					throw new InvalidArgumentException("Failed to parse '$word'");
 			}
 		}
 

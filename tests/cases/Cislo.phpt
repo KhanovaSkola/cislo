@@ -73,8 +73,16 @@ class CisloTest extends TestCase
 		);
 	}
 
+	public function testParseGarble()
+	{
+		Assert::exception(function() {
+			Cislo::parse('garble');
+		}, 'KhanovaSkola\\InvalidArgumentException');
+	}
+
 	public function testParseCompoundWord()
 	{
+		Assert::same(NULL, Cislo::parseCompoundWord('jedna'));
 		Assert::same(25, Cislo::parseCompoundWord('petadvacet'));
 	}
 
