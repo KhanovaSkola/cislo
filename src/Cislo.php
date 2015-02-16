@@ -84,11 +84,11 @@ class Cislo
 		$tens = $ranks[1] . $ranks[0];
 
 		$words = [];
-		if ($hundreds != 0)
+		if ($hundreds && $hundreds != 0)
 		{
 			$words[] = static::hundredsToWord($hundreds);
 		}
-		if ($tens != 0)
+		if ($tens && $tens != 0)
 		{
 			$words[] = static::tensToWord($tens);
 		}
@@ -113,6 +113,11 @@ class Cislo
 
 	public static function tensToWord($tens)
 	{
+		if (!$tens)
+		{
+			return NULL;
+		}
+
 		switch ($tens)
 		{
 			case 1: return 'jedna';

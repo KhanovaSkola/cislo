@@ -17,6 +17,7 @@ class CisloTest extends TestCase
 
 	public function testTensToWord()
 	{
+		Assert::same(NULL, Cislo::tensToWord(''));
 		Assert::same('jedna', Cislo::tensToWord(1));
 		Assert::same('dvanáct', Cislo::tensToWord(12));
 		Assert::same('čtyřicet devět', Cislo::tensToWord(49));
