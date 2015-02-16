@@ -8,6 +8,11 @@ class Cislo
 
 	public static function toWord($number)
 	{
+		if ($number < 0 || $number > 1e9 - 1)
+		{
+			throw new OutOfRangeException("Number '$number' should be from [0, 999_999_999]");
+		}
+
 		if ($number === 0)
 		{
 			return 'nula';
@@ -35,21 +40,16 @@ class Cislo
 			}
 			switch ($rank)
 			{
+				case 0:
+					break;
 				case 1:
 					$words[] = static::plural($group, 'tisíc', 'tisíce', 'tisíc');
 					break;
 				case 2:
 					$words[] = static::plural($group, 'milion', 'miliony', 'milionů');
 					break;
-				case 3:
-					$words[] = static::plural($group, 'miliarda', 'miliardy', 'miliard');
-					break;
-				case 4:
-					$words[] = static::plural($group, 'bilion', 'bilionů', 'bilionů');
-					break;
-				case 5:
-					$words[] = static::plural($group, 'biliarda', 'biliardy', 'biliard');
-					break;
+				default:
+					throw new OutOfRangeException();
 			}
 		}
 

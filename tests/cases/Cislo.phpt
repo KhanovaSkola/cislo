@@ -42,6 +42,29 @@ class CisloTest extends TestCase
 		Assert::same('devět milionů sto dvacet tři tisíc čtyři sta padesát šest', Cislo::toWord(9123456));
 	}
 
+	public function testRandge()
+	{
+		$min = 0;
+		$max = 1e9-1;
+
+		Cislo::toWord($min);
+		Cislo::toWord($max);
+
+		Assert::exception(function() use ($min) {
+			Cislo::toWord($min - 1);
+		}, 'KhanovaSkola\\OutOfRangeException');
+		Assert::exception(function() use ($max) {
+			Cislo::toWord($max + 1);
+		}, 'KhanovaSkola\\OutOfRangeException');
+	}
+
+	public function testReadmeExample()
+	{
+		Assert::same('nula', Cislo::toWord(0));
+		Assert::same('tisíc tři sta třicet sedm', Cislo::toWord(1337));
+		Assert::same('tři sta milionů', Cislo::toWord(3e8));
+	}
+
 }
 
 $test = new CisloTest();
