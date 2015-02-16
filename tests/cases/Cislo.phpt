@@ -58,11 +58,39 @@ class CisloTest extends TestCase
 		}, 'KhanovaSkola\\OutOfRangeException');
 	}
 
-	public function testReadmeExample()
+	public function testParse()
+	{
+		Assert::same(0, Cislo::parse('nula'));
+		Assert::same(125, Cislo::parse('sto dvacet pět'));
+		Assert::same(7000398, Cislo::parse('sedm milionů tři sta devadesát osm'));
+	}
+
+	public function testParseFolding()
+	{
+		Assert::same(
+			Cislo::parse('tři tisíce devadesát tři'),
+			Cislo::parse('tri tisice devadesat tri')
+		);
+	}
+
+	public function testParseCompoundWord()
+	{
+		Assert::same(25, Cislo::parseCompoundWord('petadvacet'));
+	}
+
+	public function testReadmeExamples()
 	{
 		Assert::same('nula', Cislo::toWord(0));
 		Assert::same('tisíc tři sta třicet sedm', Cislo::toWord(1337));
 		Assert::same('tři sta milionů', Cislo::toWord(3e8));
+
+		Assert::same(0, Cislo::parse('nula'));
+		Assert::same(1, Cislo::parse('jedna'));
+		Assert::same(1, Cislo::parse('jeden'));
+		Assert::same(25, Cislo::parse('pětadvacet'));
+		Assert::same(1925, Cislo::parse('tisíc devět set dvacet pět'));
+		Assert::same(1925, Cislo::parse('devatenáct set dvacet pět'));
+		Assert::same(1925, Cislo::parse('jeden tisic devet set a dvacet pet'));
 	}
 
 }

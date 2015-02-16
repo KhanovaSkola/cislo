@@ -2,6 +2,8 @@
 
 namespace KhanovaSkola;
 
+use Nette\Utils\Strings;
+
 
 class Cislo
 {
@@ -144,6 +146,152 @@ class Cislo
 		}
 
 		return "$w " . static::tensToWord($low);
+	}
+
+	public static function parse($phrase)
+	{
+		$normalized = Strings::normalize(Strings::toAscii($phrase));
+
+		$words = preg_split('~\\s+~', $normalized, -1, PREG_SPLIT_NO_EMPTY);
+
+		$number = 0;
+		$buffer = 0;
+
+		while ($word = array_shift($words))
+		{
+			$compound = static::parseCompoundWord($word);
+			if ($compound)
+			{
+				$buffer += $compound;
+				continue;
+			}
+
+			switch ($word)
+			{
+				case 'jedno': // expecting 'sto'
+					break;
+
+				case 'jedna':
+				case 'jeden':
+					$buffer += 1; break;
+				case 'dva':
+				case 'dve':
+					$buffer += 2; break;
+				case 'tri':
+					$buffer += 3; break;
+				case 'ctyri':
+					$buffer += 4; break;
+				case 'pet':
+					$buffer += 5; break;
+				case 'sest':
+					$buffer += 6; break;
+				case 'sedm':
+				case 'sedum':
+					$buffer += 7; break;
+				case 'osm':
+				case 'osum':
+					$buffer += 8; break;
+				case 'devet':
+					$buffer += 9; break;
+				case 'jedenact':
+					$buffer += 10; break;
+				case 'dvanact':
+					$buffer += 12; break;
+				case 'trinact':
+					$buffer += 13; break;
+				case 'ctrnact':
+					$buffer += 14; break;
+				case 'patnact':
+					$buffer += 15; break;
+				case 'sestnact':
+					$buffer += 16; break;
+				case 'sedmnact':
+				case 'sedumnact':
+					$buffer += 17; break;
+				case 'osmnact':
+				case 'osumnact':
+					$buffer += 18; break;
+				case 'devatenact':
+					$buffer += 19; break;
+				case 'dvacet':
+					$buffer += 20; break;
+				case 'tricet':
+					$buffer += 30; break;
+				case 'ctyricet':
+					$buffer += 40; break;
+				case 'padesat':
+					$buffer += 50; break;
+				case 'sedesat':
+					$buffer += 60; break;
+				case 'sedmdesat':
+				case 'sedumdesat':
+					$buffer += 70; break;
+				case 'osmdesat':
+				case 'osumdesat':
+					$buffer += 80; break;
+				case 'devadesat':
+					$buffer += 90; break;
+
+				case 'sto':
+					$buffer += 100; break;
+				case 'ste':
+				case 'sta':
+				case 'set':
+					if ($buffer >= 11 && $buffer <= 19) { // devatenact set
+						$number += $buffer * 100;
+						$buffer = 0;
+					} else {
+						$buffer *= 100;
+					}
+					break;
+
+				case 'tisic':
+				case 'tisice':
+				case 'tisicu':
+					$number += ($buffer ?: 1) * 1e3;
+					$buffer = 0;
+					break;
+
+				case 'milion':
+				case 'miliony':
+				case 'milionu':
+					$number += ($buffer ?: 1) * 1e6;
+					$buffer = 0;
+					break;
+			}
+		}
+
+		return (int) $number + $buffer;
+		var_dump($number, $buffer);
+	}
+
+	/**
+	 * @var string $word folded
+	 */
+	public static function parseCompoundWord($word)
+	{
+		$tens = [
+			'dvacet' => 20,
+			'tricet' => 30,
+			'ctyricet' => 40,
+			'padesat' => 50,
+			'sedesat' => 60,
+			'sedmdesat' => 70,
+			'sedumdesat' => 70,
+			'osmdesat' => 80,
+			'osumdesat' => 80,
+			'devadesat' => 90,
+		];
+		foreach ($tens as $ten => $addition)
+		{
+			$lookup = "a$ten";
+			if (substr($word, -strlen($lookup)) === $lookup)
+			{
+				return $addition + self::parse(substr($word, 0, -strlen($lookup)));
+			}
+		}
+
+		return NULL;
 	}
 
 }
