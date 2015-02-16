@@ -35,11 +35,22 @@ class CisloTest extends TestCase
 
 	public function testToWord()
 	{
+		Assert::same('', Cislo::toWord(''));
+
+		Assert::same('nula', Cislo::toWord('0'));
 		Assert::same('nula', Cislo::toWord(0));
+
 		Assert::same('milion', Cislo::toWord(1000000));
 		Assert::same('dva miliony', Cislo::toWord(2000000));
 		Assert::same('dva miliony devět', Cislo::toWord(2000009));
 		Assert::same('devět milionů sto dvacet tři tisíc čtyři sta padesát šest', Cislo::toWord(9123456));
+	}
+
+	public function testToWordGarble()
+	{
+		Assert::exception(function() {
+			Cislo::toWord('garble');
+		}, 'KhanovaSkola\\InvalidArgumentException');
 	}
 
 	public function testRandge()

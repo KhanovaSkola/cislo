@@ -14,8 +14,15 @@ class Cislo
 		{
 			throw new OutOfRangeException("Number '$number' should be from [0, 999_999_999]");
 		}
-
-		if ($number === 0)
+		if ($number && !ctype_digit("$number"))
+		{
+			throw new InvalidArgumentException("Expecting integer, got $number.");
+		}
+		if ((string) $number !== "0" && !$number)
+		{
+			return '';
+		}
+		if ($number == 0)
 		{
 			return 'nula';
 		}
