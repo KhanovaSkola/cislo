@@ -182,9 +182,9 @@ class Cislo
 			{
 				case 'a': // ignore
 				case 'nula': // keep $number 0
-				case 'jedno': // expecting 'sto'
 					break;
 
+				case 'jedno':
 				case 'jedna':
 				case 'jeden':
 					$buffer += 1; break;
@@ -247,7 +247,11 @@ class Cislo
 					$buffer += 90; break;
 
 				case 'sto':
-					$buffer += 100; break;
+					if ($buffer === 1) { // jedno sto
+						$buffer = 100; break;
+					} else {
+						$buffer += 100; break;
+					}
 				case 'ste':
 				case 'sta':
 				case 'set':
