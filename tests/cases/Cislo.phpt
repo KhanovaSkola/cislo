@@ -31,6 +31,7 @@ class CisloTest extends TestCase
 
 	public function testGroupToWords()
 	{
+		Assert::same('jedna', Cislo::groupToWords(1));
 		Assert::same('sto dvacet tři', Cislo::groupToWords(123));
 	}
 
@@ -41,6 +42,7 @@ class CisloTest extends TestCase
 		Assert::same('nula', Cislo::toWord('0'));
 		Assert::same('nula', Cislo::toWord(0));
 
+		Assert::same('jedna', Cislo::toWord(1));
 		Assert::same('milion', Cislo::toWord(1000000));
 		Assert::same('dva miliony', Cislo::toWord(2000000));
 		Assert::same('dva miliony devět', Cislo::toWord(2000009));

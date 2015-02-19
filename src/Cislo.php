@@ -50,6 +50,10 @@ class Cislo
 			switch ($rank)
 			{
 				case 0:
+					if ($group == 1)
+					{
+						$words[] = static::groupToWords($group);
+					}
 					break;
 				case 1:
 					$words[] = static::plural($group, 'tisíc', 'tisíce', 'tisíc');
